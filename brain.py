@@ -1,7 +1,8 @@
 import json
 import asyncio
 import requests
-from config import OLLAMA_URL, AI_MODEL, SYSTEM_PROMPT
+import os
+from config import OLLAMA_URL, AI_MODEL, SYSTEM_PROMPT, APP_MAPPING, CLOSE_MAPPING
 
 # 🧠 Conversation Memory Array
 session_history = []
@@ -43,6 +44,40 @@ AVAILABLE_TOOLS = [
                 "required": ["query_string"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "open_local_application",
+            "description": "Open a local application or software on the Windows machine (e.g., Chrome, Spotify, Notepad, Edge).",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "app_name": {
+                        "type": "string",
+                        "description": "The name of the application to open in lowercase."
+                    }
+                },
+                "required": ["app_name"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "close_local_application",
+            "description": "Close and terminate a running local application or software on the Windows machine (e.g., Chrome, Spotify, Notepad).",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "app_name": {
+                        "type": "string",
+                        "description": "The name of the application to close in lowercase."
+                    }
+                },
+                "required": ["app_name"]
+            }
+        }
     }
 ]
 
@@ -74,6 +109,32 @@ def execute_tool(tool_call):
     elif func_name == "search_internet_query":
         query = args.get("query_string", "")
         return f"Search execution successful for '{query}'. Information gathered and ready for summary."
+
+    # Tool 3: Open Local Application
+    elif func_name == "open_local_application":
+        app_name = args.get("app_name", "").lower()
+        
+        if app_name in APP_MAPPING:
+            try:
+                os.system(APP_MAPPING[app_name])
+                return f"Successfully opened {app_name} for the Boss."
+            except Exception as e:
+                return f"Failed to open {app_name}. Error: {e}"
+        else:
+            return f"I do not have the command to open '{app_name}' in my registry."
+
+    # Tool 4: Close Local Application
+    elif func_name == "close_local_application":
+        app_name = args.get("app_name", "").lower()
+        
+        if app_name in CLOSE_MAPPING:
+            try:
+                os.system(CLOSE_MAPPING[app_name])
+                return f"Successfully closed {app_name} as requested."
+            except Exception as e:
+                return f"Failed to terminate {app_name}. Error: {e}"
+        else:
+            return f"I do not have a close routine for '{app_name}' mapped inside config.py."
 
     return f"Tool {func_name} executed."
 
