@@ -17,7 +17,7 @@ VOICE_MODEL = "en-US-GuyNeural"
 SAMPLERATE = 16000
 MAX_DURATION = 8.0          
 MIN_SPEECH_TIME = 0.7       
-SILENCE_THRESHOLD = 5       # 🔧 Lowered for extreme sensitivity (across-the-room hearing)
+SILENCE_THRESHOLD = 5       
 SILENCE_SECONDS = 1.2       
 
 # Microphone Hardware Mapping
@@ -34,4 +34,17 @@ APP_MAPPING = {
     "settings": "start ms-settings:",
     "taskmanager": "taskmgr",
     "spotify": "start spotify"
+}
+
+# 🛑 Windows Process Termination Commands
+CLOSE_MAPPING = {
+    "chrome": "taskkill /f /im chrome.exe",
+    "edge": "taskkill /f /im msedge.exe",
+    "notepad": "taskkill /f /im notepad.exe",
+    "calculator": "taskkill /f /im calc.exe",
+    "cmd": "taskkill /f /im cmd.exe",
+    "explorer": "taskkill /f /im explorer.exe",
+    "settings": "taskkill /f /im SystemSettings.exe",
+    "taskmanager": "taskkill /f /im taskmgr.exe",
+    "spotify": "taskkill /f /im Spotify.exe"
 }
