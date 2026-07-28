@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <video src="jarvis-v20-video_compressed.mp4" controls width="100%" autoplay muted loop></video>
+  <img src="jarvis-v20-video_compressed-gif-optimized.gif" width="100%" alt="Jarvis v2.0 Demo" />
 </p>
 
 <p align="center">
