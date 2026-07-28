@@ -1,8 +1,9 @@
 import os
 
 # Ollama Engine Settings
-OLLAMA_URL = "http://localhost:11434/api/chat"
+OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
 AI_MODEL = "qwen2.5:3b-instruct"
+VISION_MODEL = "minicpm-v" # 👁️ Upgraded: Highly accurate local model for screens and text OCR
 
 # 🧠 JARVIS CORE IDENTITY
 SYSTEM_PROMPT = """You are Jarvis, a highly advanced, autonomous AI assistant. 
