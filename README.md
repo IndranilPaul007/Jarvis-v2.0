@@ -1,32 +1,56 @@
 <h1 align="center">🤖 Jarvis v2.0</h1>
 
 <p align="center">
-  <b>A local, asynchronous AI agent assistant powered by Qwen 2.5</b>
+  <b>A local, asynchronous AI agent assistant powered by Qwen 2.5 & Vision Core</b>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Engine-Qwen--2.5-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Privacy-Local--First-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Engine-Qwen--2.5--3B-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Vision-MiniCPM--V-purple?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Privacy-100%25_Local-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Platform-Windows-lightgrey?style=for-the-badge" />
 </p>
 
 ---
 
 ### 🚀 Overview
-Jarvis v2.0 is an autonomous, agentic AI assistant designed to run entirely locally on consumer-grade hardware (NVIDIA RTX 2050). By moving away from rigid, hardcoded commands to a **dynamic tool-calling architecture**, Jarvis can reason about user intent and execute complex tasks autonomously.
+**Jarvis v2.0** is an autonomous, agentic AI desktop assistant designed to run entirely locally on consumer-grade hardware (optimized for NVIDIA RTX GPUs). Moving away from rigid, hardcoded scripts, Jarvis uses a **dynamic tool-calling architecture** that allows him to interpret natural user intent and execute complex local system operations, browse the web, play media, and even "see" your screen natively.
 
-### ✨ Key Features
-* **Agentic Logic:** Uses dynamic tool-calling to bridge the gap between user intent and system actions.
-* **Privacy-First:** Operates 100% locally with Qwen 2.5—no external cloud dependencies.
-* **Optimized Performance:** Specially configured for efficient inference on an RTX 2050.
-* **Asynchronous Execution:** Handles tasks non-blockingly, allowing for a fluid user experience.
+---
 
-### 🛠 Tech Stack
-* **LLM:** Qwen 2.5 (Local)
-* **Language:** Python
-* **Core Modules:** `brain.py` (Reasoning), `commands.py` (Tool definitions), `listen.py` (Audio processing), `voice.py` (TTS).
+### ✨ Key Capabilities
+* **🧠 Agentic Dynamic Reasoning:** Uses function-calling loops via local Ollama models to bridge natural language requests directly to system actions.
+* **👁️ Visual Cortex (Screen Awareness):** Equipped with `minicpm-v` to capture, resize, and analyze your monitor in real time to read errors, text, or UI elements.
+* **🎵 Direct Media Playback:** Automatically hooks into the local Spotify desktop app via URI protocols to search and play tracks on demand.
+* **💻 Universal OS Control:** 
+  * Launch or force-terminate *any* application or background process on your machine.
+  * Silently install or uninstall software packages via the native Windows Package Manager (`winget`).
+* **🌐 Isolated Browser Automation:** Controls Google Chrome specifically for web searches and navigation, bypassing default browser conflicts.
+* **🎙️ Voice-Activated Pipeline:** Listens passively through local Whisper acoustic models and responds using asynchronous text-to-speech engines.
+* **🔒 100% Local Privacy:** Zero cloud telemetry, zero API keys required, and full offline functionality.
 
-### 📦 Quick Start
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/IndranilPaul007/Jarvis-v2.0.git](https://github.com/IndranilPaul007/Jarvis-v2.0.git)
+---
+
+### 🛠 Tech Stack & Architecture
+
+| Component | Technology | Role |
+| :--- | :--- | :--- |
+| **Primary Brain** | `Qwen 2.5:3b-instruct` | Core logic, reasoning, and tool selection |
+| **Visual Cortex** | `minicpm-v` | High-speed local OCR and screen analysis |
+| **Acoustic Engine** | `faster-whisper` | Local real-time speech-to-text conversion |
+| **Voice Output** | `edge-tts` | High-fidelity synthetic speech synthesis |
+| **Environment** | Python 3.10+ / Windows | Native OS automation wrapper (`subprocess`, `PIL`) |
+
+---
+
+### 📂 Project Structure
+```text
+Jarvis-v2.0/
+│
+├── main.py              # Main asynchronous event loop & orchestration
+├── brain.py             # Core cognitive loop & dynamic tool execution router
+├── commands.py          # Universal system utilities & tool manifests
+├── config.py            # System parameters, app registries, and model endpoints
+├── requirements.txt     # Complete Python package dependency manifest
+└── README.md            # Project documentation
