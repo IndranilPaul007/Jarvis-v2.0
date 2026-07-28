@@ -1,114 +1,134 @@
 <h1 align="center">🤖 Jarvis v2.0</h1>
 
 <p align="center">
-  <b>A local, asynchronous AI agent assistant powered by Qwen 2.5 & Vision Core</b>
+  <strong>A local-first, screen-aware Windows desktop agent powered by Ollama.</strong>
 </p>
 
 <p align="center">
-  <img src="Jarvis v2.0 complete.gif" width="100%" alt="Jarvis v2.0 Demo" />
+  Use natural language to control apps, inspect what is on your screen, play music, and automate everyday desktop tasks—without paid AI API keys.
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Engine-Qwen--2.5--3B-blue?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Vision-MiniCPM--V-purple?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Privacy-100%25_Local-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Platform-Windows-lightgrey?style=for-the-badge" />
+  <img src="Jarvis v2.0 complete.gif" width="100%" alt="Jarvis v2.0 demo: local AI desktop agent" />
 </p>
 
----
+<p align="center">
+  <img src="https://img.shields.io/badge/status-active-brightgreen?style=for-the-badge" alt="Project status: active" />
+  <img src="https://img.shields.io/badge/engine-Qwen%202.5%203B-blue?style=for-the-badge" alt="Qwen 2.5 3B" />
+  <img src="https://img.shields.io/badge/vision-MiniCPM--V-purple?style=for-the-badge" alt="MiniCPM-V" />
+  <img src="https://img.shields.io/badge/platform-Windows-lightgrey?style=for-the-badge" alt="Windows" />
+  <img src="https://img.shields.io/badge/API%20keys-none-success?style=for-the-badge" alt="No paid API keys required" />
+</p>
 
-### 🚀 Overview
-**Jarvis v2.0** is an autonomous, agentic AI desktop assistant designed to run entirely locally on consumer-grade hardware (optimized for NVIDIA RTX GPUs). Moving away from rigid, hardcoded scripts, Jarvis uses a **dynamic tool-calling architecture** that allows him to interpret natural user intent and execute complex local system operations, browse the web, play media, and even "see" your screen natively.
+> **What makes Jarvis different?** It is a local-first Windows agent that can reason over voice input, call desktop tools, and analyze your screen with local Ollama models.
 
----
+## ✨ What Jarvis can do
 
-### ✨ Key Capabilities
-* **🧠 Agentic Dynamic Reasoning:** Uses function-calling loops via local Ollama models to bridge natural language requests directly to system actions.
-* **👁️ Visual Cortex (Screen Awareness):** Equipped with `minicpm-v` to capture, resize, and analyze your monitor in real time to read errors, text, or UI elements.
-* **🎵 Direct Media Playback:** Automatically hooks into the local Spotify desktop app via URI protocols to search and play tracks on demand.
-* **💻 Universal OS Control:** 
-  * Launch or force-terminate *any* application or background process on your machine.
-  * Silently install or uninstall software packages via the native Windows Package Manager (`winget`).
-* **🌐 Isolated Browser Automation:** Controls Google Chrome specifically for web searches and navigation, bypassing default browser conflicts.
-* **🎙️ Voice-Activated Pipeline:** Listens passively through local Whisper acoustic models and responds using asynchronous text-to-speech engines.
-* **🔒 100% Local Privacy:** Zero cloud telemetry, zero API keys required, and full offline functionality.
+- **Reason and act** — converts natural-language requests into tool calls using a local Qwen model.
+- **See your screen** — captures and analyzes visible UI, text, and error messages with MiniCPM-V.
+- **Control Windows apps** — opens applications and manages selected desktop processes.
+- **Play music** — searches and opens tracks in the Spotify desktop app through Spotify URIs.
+- **Browse with Chrome** — performs targeted searches and navigation in Google Chrome.
+- **Listen and speak** — combines local speech-to-text with asynchronous text-to-speech.
+- **Manage software** — can use Windows Package Manager (`winget`) for package operations.
 
----
+## 🎬 Try these commands
 
-### 🛠 Tech Stack & Architecture
+~~~text
+"Jarvis, look at my screen. What error is showing here?"
+"Open Visual Studio Code and Google Chrome."
+"Jarvis, play Judas by Lady Gaga."
+"How many tools do you currently have registered?"
+~~~
 
-| Component | Technology | Role |
-| :--- | :--- | :--- |
-| **Primary Brain** | `Qwen 2.5:3b-instruct` | Core logic, reasoning, and tool selection |
-| **Visual Cortex** | `minicpm-v` | High-speed local OCR and screen analysis |
-| **Acoustic Engine** | `faster-whisper` | Local real-time speech-to-text conversion |
-| **Voice Output** | `edge-tts` | High-fidelity synthetic speech synthesis |
-| **Environment** | Python 3.10+ / Windows | Native OS automation wrapper (`subprocess`, `PIL`) |
+## 🧠 How it works
 
----
+~~~text
+Voice / text input
+      ↓
+Qwen 2.5 via Ollama → tool selection → Windows / Chrome / Spotify actions
+      ↓                                      ↑
+faster-whisper + MiniCPM-V ──────────────────┘
+~~~
 
-### 📂 Project Structure
-```text
-Jarvis-v2.0/
-│
-├── main.py              # Main asynchronous event loop & orchestration
-├── brain.py             # Core cognitive loop & dynamic tool execution router
-├── commands.py          # Universal system utilities & tool manifests
-├── config.py            # System parameters, app registries, and model endpoints
-├── requirements.txt     # Complete Python package dependency manifest
-└── README.md            # Project documentation
-```
+| Component | Technology | Purpose |
+| --- | --- | --- |
+| Agent brain | Qwen 2.5:3B Instruct | Reasoning and tool selection |
+| Visual cortex | MiniCPM-V | Screen analysis and OCR |
+| Speech-to-text | faster-whisper | Voice input |
+| Voice output | edge-tts | Spoken responses |
+| Runtime | Python 3.10+ / Windows | Desktop automation |
 
-### 📦 Quick Start Guide
+## 🚀 Quick start
 
-1. Prerequisites
-Ollama installed locally on your machine (Download Ollama).
-Pull the required local models in your terminal:
-```bash
+### Requirements
+
+- Windows 10 or 11
+- Python 3.10+
+- [Ollama](https://ollama.com/) installed and running
+- A microphone for voice commands
+- An NVIDIA RTX GPU is recommended for responsive local vision; CPU execution may be slower
+- Optional: Spotify desktop app, Google Chrome, and `winget` for their respective integrations
+
+### Install
+
+~~~bash
+git clone https://github.com/IndranilPaul007/Jarvis-v2.0.git
+cd Jarvis-v2.0
+
 ollama pull qwen2.5:3b-instruct
 ollama pull minicpm-v
-```
 
-2. Clone the Repository
-```bash
-git clone [https://github.com/IndranilPaul007/Jarvis-v2.0.git](https://github.com/IndranilPaul007/Jarvis-v2.0.git)
-cd Jarvis-v2.0
-```
-
-3. Install Python Dependencies
-Install all required packages (including PyAudio/SoundDevice and Imaging tools via pillow):
-```bash
 pip install -r requirements.txt
-```
+~~~
 
-4. Boot Up Jarvis
-Open a terminal window and start the Ollama backend server bound to local IPv4:
-```bash
+Start Ollama in one terminal:
+
+~~~bash
 ollama serve
-```
-Open a second terminal window, navigate to the project directory, and launch Jarvis:
-```bash
+~~~
+
+Then start Jarvis in another:
+
+~~~bash
 python main.py
-```
+~~~
 
-💡 Example Voice Commands
-"Jarvis, play Judas by Lady Gaga."
+## ⚠️ Permissions and privacy
 
-"What is the weather like in Kolkata?"
+Jarvis is **local-first**: its models run through your local Ollama installation and it does not require paid AI API keys. Some optional capabilities—such as web search, Spotify, weather, package management, and cloud-backed text-to-speech—may use external services or require an internet connection.
 
-"Jarvis, look at my screen. What error is showing here?"
+Jarvis can launch apps, manage processes, and invoke `winget`. Review requests carefully and run it only on a machine you control. Never use it to install unknown software or execute actions you do not understand.
 
-"Open Visual Studio Code and Google Chrome."
+## 📁 Project structure
 
-"Install vlc quietly in the background."
+~~~text
+Jarvis-v2.0/
+├── main.py          # Asynchronous app entry point
+├── brain.py         # Agent loop and tool-execution router
+├── commands.py      # Windows utilities and tool definitions
+├── config.py        # Models, endpoints, and application settings
+├── listen.py        # Audio-input handling
+├── voice.py         # Text-to-speech handling
+└── requirements.txt # Python dependencies
+~~~
 
-"How many tools do you currently have registered?"
+## 🛣️ Roadmap
 
-🌐 Repository Link & Git Clone
-To clone or access the repository directly:
+- [ ] Safer confirmations and a dry-run mode for system-changing tools
+- [ ] Guided setup and diagnostics
+- [ ] More app integrations and user-contributed tools
+- [ ] Automated tests and CI
+- [ ] Support for additional local models and hardware profiles
 
-```bash
-git clone https://github.com/IndranilPaul007/Jarvis-v2.0.git
-```
+## 🤝 Contributing
 
+Ideas, bug reports, documentation improvements, and new tools are welcome. Please open an issue describing the use case, your environment, and the expected behavior before submitting a large change.
+
+## 📄 License
+
+This project is released under the repository's [LICENSE](LICENSE).
+
+---
+
+If Jarvis helps you, consider giving the repository a ⭐. It helps more people discover local-first AI tooling.
