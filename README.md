@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <img src="jarvis-v20-video_compressed-gif-optimized.gif" width="100%" alt="Jarvis v2.0 Demo" />
+  <img src="Jarvis mini.mp4" width="100%" alt="Jarvis v2.0 Demo" />
 </p>
 
 <p align="center">
