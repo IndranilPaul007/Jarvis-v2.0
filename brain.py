@@ -1,8 +1,10 @@
 import json
 import asyncio
 import requests
-import os
-from config import OLLAMA_URL, AI_MODEL, SYSTEM_PROMPT, APP_MAPPING, CLOSE_MAPPING
+from config import OLLAMA_URL, AI_MODEL, SYSTEM_PROMPT
+
+# 🔗 Import the universal schemas and execution router from our new commands architecture
+from commands import TOOLS_MANIFEST, TOOLS_EXECUTION_ROUTER
 
 # 🧠 Conversation Memory Array
 session_history = []
@@ -10,79 +12,9 @@ session_history = []
 # -----------------------------------------------------------------------------
 # ⚙️ AGENTIC TOOL EXECUTION LAYER
 # -----------------------------------------------------------------------------
-AVAILABLE_TOOLS = [
-    {
-        "type": "function",
-        "function": {
-            "name": "fetch_live_weather",
-            "description": "Get the current weather for a specific city.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "city": {
-                        "type": "string",
-                        "description": "The city to get the weather for."
-                    }
-                },
-                "required": ["city"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "search_internet_query",
-            "description": "Search the internet for up-to-date information or guides.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query_string": {
-                        "type": "string",
-                        "description": "The specific search query to look up."
-                    }
-                },
-                "required": ["query_string"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "open_local_application",
-            "description": "Open a local application or software on the Windows machine (e.g., Chrome, Spotify, Notepad, Edge).",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "app_name": {
-                        "type": "string",
-                        "description": "The name of the application to open in lowercase."
-                    }
-                },
-                "required": ["app_name"]
-            }
-        }
-    },
-    {
-        "type": "function",
-        "function": {
-            "name": "close_local_application",
-            "description": "Close and terminate a running local application or software on the Windows machine (e.g., Chrome, Spotify, Notepad).",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "app_name": {
-                        "type": "string",
-                        "description": "The name of the application to close in lowercase."
-                    }
-                },
-                "required": ["app_name"]
-            }
-        }
-    }
-]
 
 def execute_tool(tool_call):
-    """Processes the tool requested by the AI and executes the local Python logic."""
+    """Dynamically processes the tool requested by the AI using the commands.py router."""
     func_name = tool_call["function"]["name"]
     raw_args = tool_call["function"]["arguments"]
     
@@ -98,45 +30,18 @@ def execute_tool(tool_call):
 
     print(f"⚙️ [Agentic Tool Execution]: Running '{func_name}' with parameters {args}")
 
-    # Tool 1: Weather
-    if func_name == "fetch_live_weather":
-        city = args.get("city", "your location")
-        if not city: 
-            city = "your location"
-        return f"The weather in {city} is currently +40°C."
-
-    # Tool 2: Internet Search
-    elif func_name == "search_internet_query":
-        query = args.get("query_string", "")
-        return f"Search execution successful for '{query}'. Information gathered and ready for summary."
-
-    # Tool 3: Open Local Application
-    elif func_name == "open_local_application":
-        app_name = args.get("app_name", "").lower()
-        
-        if app_name in APP_MAPPING:
-            try:
-                os.system(APP_MAPPING[app_name])
-                return f"Successfully opened {app_name} for the Boss."
-            except Exception as e:
-                return f"Failed to open {app_name}. Error: {e}"
-        else:
-            return f"I do not have the command to open '{app_name}' in my registry."
-
-    # Tool 4: Close Local Application
-    elif func_name == "close_local_application":
-        app_name = args.get("app_name", "").lower()
-        
-        if app_name in CLOSE_MAPPING:
-            try:
-                os.system(CLOSE_MAPPING[app_name])
-                return f"Successfully closed {app_name} as requested."
-            except Exception as e:
-                return f"Failed to terminate {app_name}. Error: {e}"
-        else:
-            return f"I do not have a close routine for '{app_name}' mapped inside config.py."
-
-    return f"Tool {func_name} executed."
+    # 🚀 Dynamic Routing: Look up the function in commands.py and execute it
+    if func_name in TOOLS_EXECUTION_ROUTER:
+        try:
+            # Unpack the dictionary arguments directly into the mapped Python function
+            result = TOOLS_EXECUTION_ROUTER[func_name](**args)
+            return str(result)
+        except Exception as e:
+            error_msg = f"Crash during execution of {func_name}: {e}"
+            print(f"❌ {error_msg}")
+            return error_msg
+    else:
+        return f"Tool '{func_name}' was requested but is not registered in the commands router."
 
 # -----------------------------------------------------------------------------
 # 🧠 CORE COGNITIVE LOOP
@@ -154,7 +59,7 @@ async def think(user_input: str) -> str:
             "model": AI_MODEL,
             "messages": full_messages,
             "stream": False,
-            "tools": AVAILABLE_TOOLS
+            "tools": TOOLS_MANIFEST  # 🔗 Now pulling the massive 11-tool array from commands.py
         }
 
         def send_http_request(payload):
@@ -188,7 +93,7 @@ async def think(user_input: str) -> str:
         if ai_reply:
             session_history.append({"role": "assistant", "content": ai_reply})
         
-        # Memory Trimming
+        # Memory Trimming (Keeps him fast and prevents context overload)
         if len(session_history) > 8:
             session_history = session_history[-8:]
             
