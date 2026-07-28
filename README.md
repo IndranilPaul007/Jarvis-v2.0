@@ -54,3 +54,50 @@ Jarvis-v2.0/
 ├── config.py            # System parameters, app registries, and model endpoints
 ├── requirements.txt     # Complete Python package dependency manifest
 └── README.md            # Project documentation
+
+### 📦 Quick Start Guide
+
+1. Prerequisites
+Ollama installed locally on your machine (Download Ollama).
+Pull the required local models in your terminal:
+Bash
+ollama pull qwen2.5:3b-instruct
+ollama pull minicpm-v
+
+2. Clone the Repository
+Bash
+git clone [https://github.com/IndranilPaul007/Jarvis-v2.0.git](https://github.com/IndranilPaul007/Jarvis-v2.0.git)
+cd Jarvis-v2.0
+
+3. Install Python Dependencies
+Install all required packages (including PyAudio/SoundDevice and Imaging tools via pillow):
+Bash
+pip install -r requirements.txt
+
+4. Boot Up Jarvis
+Open a terminal window and start the Ollama backend server bound to local IPv4:
+Bash
+ollama serve
+Open a second terminal window, navigate to the project directory, and launch Jarvis:
+Bash
+python main.py
+
+💡 Example Voice Commands
+"Jarvis, play Judas by Lady Gaga."
+
+"What is the weather like in Kolkata?"
+
+"Jarvis, look at my screen. What error is showing here?"
+
+"Open Visual Studio Code and Google Chrome."
+
+"Install vlc quietly in the background."
+
+"How many tools do you currently have registered?"
+
+🌐 Repository Link & Git Clone
+To clone or access the repository directly:
+
+Bash
+git clone [https://github.com/IndranilPaul007/Jarvis-v2.0.git](https://github.com/IndranilPaul007/Jarvis-v2.0.git)
+https://github.com/IndranilPaul007/Jarvis-v2.0.git
