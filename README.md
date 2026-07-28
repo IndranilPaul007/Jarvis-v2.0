@@ -5,6 +5,10 @@
 </p>
 
 <p align="center">
+  <video src="jarvis-v20-video_compressed.mp4" controls width="100%" autoplay muted loop></video>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Engine-Qwen--2.5--3B-blue?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Vision-MiniCPM--V-purple?style=for-the-badge" />
